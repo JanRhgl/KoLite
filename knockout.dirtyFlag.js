@@ -67,6 +67,15 @@
                     _lastCleanState(hashFunction(_objectToTrack));
                     _isInitiallyDirty(false);
                 };
+                self.undo = function () {
+                    var source = JSON.parse(_lastCleanState());
+                    for (prop in source) {
+                        if (_objectToTrack[prop]() && _objectToTrack[prop]() != source[prop]) {
+                            _objectToTrack[prop](source[prop]);
+                        }
+                    }
+                    _isInitiallyDirty(false);
+                };
                 return self;
             };
 
